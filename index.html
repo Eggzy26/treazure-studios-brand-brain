@@ -175,11 +175,79 @@
   .resolved { font-size:11.5px; color: #2f7a34; border:1px solid rgba(47,122,52,.35); background: rgba(47,122,52,.08); border-radius:4px; padding:9px 13px; margin-top:12px; display:block; }
 
   footer.bb-footer { padding: 44px 0 90px; color: var(--fg-muted); font-size:11px; }
+
+  /* ── AUTH — LOGIN OVERLAY ── */
+  #login-overlay { position:fixed; inset:0; z-index:9999; background:var(--vault-canvas); display:none; align-items:center; justify-content:center; padding:20px; }
+  .lx-card { width:100%; max-width:380px; background:var(--vault-s1); border:1px solid var(--border-gold); border-radius:12px; padding:40px 36px; box-shadow:0 20px 60px rgba(21,34,35,0.12); }
+  .lx-eyebrow { font-size:10px; letter-spacing:var(--ls-widest); text-transform:uppercase; color:var(--gold); margin-bottom:10px; text-align:center; }
+  .lx-title { font-family:var(--font-display); font-style:italic; font-weight:600; font-size:26px; color:var(--fg); text-align:center; margin-bottom:28px; }
+  .lx-field { margin-bottom:16px; }
+  .lx-field label { display:block; font-size:10.5px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--fg-muted); margin-bottom:6px; }
+  .lx-field input { width:100%; padding:11px 13px; background:var(--vault-canvas); border:1px solid var(--border-md); border-radius:6px; font-size:14px; color:var(--fg); font-family:var(--font-sans); box-sizing:border-box; }
+  .lx-field input:focus { outline:none; border-color:var(--gold); }
+  .lx-err { display:none; font-size:12px; color:#b0392f; background:rgba(176,57,47,.08); border:1px solid rgba(176,57,47,.25); border-radius:6px; padding:8px 12px; margin-bottom:14px; }
+  .lx-err.show { display:block; }
+  .lx-submit { width:100%; padding:12px; background:var(--gold); color:var(--vault-canvas); border:none; border-radius:6px; font-size:12.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; cursor:pointer; font-family:var(--font-sans); }
+  .lx-submit:hover { background:var(--gold-dk); }
+
+  /* ── SESSION BAR + LOGIN LOG ── */
+  .sb-session { padding:16px 0 0; margin-top:14px; border-top:1px solid rgba(255,250,238,.1); }
+  .sb-session-user { font-size:12.5px; font-weight:700; color:var(--fg); }
+  .sb-session-role { display:inline-block; font-size:9.5px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; padding:2px 8px; border-radius:10px; margin-top:4px; }
+  .role-admin { background:rgba(247,214,117,.14); color:var(--gold); }
+  .role-ceo   { background:rgba(255,250,238,.1); color:var(--fg-dim); }
+  .role-user  { background:rgba(255,250,238,.06); color:var(--fg-muted); }
+  .sb-auth-btn { display:block; width:100%; margin-top:8px; padding:7px 10px; background:transparent; border:1px solid rgba(255,250,238,.14); border-radius:6px; color:var(--fg-dim); font-size:11px; font-weight:600; cursor:pointer; font-family:var(--font-sans); text-align:center; }
+  .sb-auth-btn:hover { border-color:var(--gold-border); color:var(--gold); }
+  .sb-auth-btn.red:hover { border-color:rgba(176,57,47,.4); color:#c5544a; }
+
+  #log-panel { position:fixed; inset:0; z-index:9998; background:rgba(8,8,6,.6); display:none; align-items:center; justify-content:center; padding:30px; }
+  #log-panel.open { display:flex; }
+  .log-box { width:100%; max-width:920px; max-height:80vh; background:var(--vault-s1); border:1px solid var(--border-gold); border-radius:12px; overflow:hidden; display:flex; flex-direction:column; }
+  .log-hd { display:flex; align-items:center; justify-content:space-between; padding:18px 24px; border-bottom:1px solid var(--border); }
+  .log-hd-title { font-family:var(--font-display); font-style:italic; font-size:19px; color:var(--fg); }
+  .log-hd button { background:transparent; border:1px solid var(--border); border-radius:6px; color:var(--fg-dim); padding:6px 12px; font-size:11px; cursor:pointer; margin-left:8px; font-family:var(--font-sans); }
+  .log-stats { display:flex; gap:20px; padding:14px 24px; border-bottom:1px solid var(--border); flex-wrap:wrap; }
+  .log-stat { font-size:11px; color:var(--fg-muted); }
+  .log-stat strong { display:block; font-size:18px; color:var(--fg); }
+  .log-body { overflow-y:auto; padding:0 24px 20px; }
+  .log-tbl { width:100%; border-collapse:collapse; font-size:12px; }
+  .log-tbl th { text-align:left; color:var(--fg-muted); font-size:10px; text-transform:uppercase; letter-spacing:.06em; padding:8px 10px; border-bottom:1px solid var(--border); }
+  .log-tbl td { padding:8px 10px; border-bottom:1px solid rgba(255,255,255,.04); color:var(--fg-dim); }
+  .log-badge { font-size:10px; font-weight:700; text-transform:uppercase; padding:2px 8px; border-radius:10px; }
+  .log-empty { padding:30px; text-align:center; color:var(--fg-muted); font-size:13px; }
 </style>
 </head>
 <body>
 
-<div class="shell">
+<!-- ── LOGIN OVERLAY ── -->
+<div id="login-overlay">
+  <div class="lx-card">
+    <div class="lx-eyebrow">Treazure Studios · Confidential</div>
+    <div class="lx-title">Brand Brain</div>
+    <div class="lx-field"><label for="lx-user">Username</label><input type="text" id="lx-user" autocomplete="username"/></div>
+    <div class="lx-field"><label for="lx-pass">Password</label><input type="password" id="lx-pass" autocomplete="current-password"/></div>
+    <div class="lx-err" id="lx-err">Incorrect username or password.</div>
+    <button class="lx-submit" id="lx-submit">Sign In</button>
+  </div>
+</div>
+
+<!-- ── ADMIN LOGIN LOG PANEL ── -->
+<div id="log-panel">
+  <div class="log-box">
+    <div class="log-hd">
+      <div class="log-hd-title">Login Log</div>
+      <div>
+        <button id="log-clear">Clear Local</button>
+        <button id="log-close">Close</button>
+      </div>
+    </div>
+    <div class="log-stats" id="log-stats"></div>
+    <div class="log-body" id="log-content"></div>
+  </div>
+</div>
+
+<div class="shell" style="display:none;">
   <nav class="sidebar">
     <div class="sidebar-brand">
       <img src="../02_Design_System/Artboard 4@4x.png" alt="Treazure Studios">
@@ -217,6 +285,12 @@
       Treazure Studios™<br>
       © 2026 · Confidential<br>
       Root: 04_Brand_Brain_Master/
+      <div class="sb-session" id="sb-session" style="display:none;">
+        <div class="sb-session-user" id="sb-session-user"></div>
+        <div id="sb-session-role"></div>
+        <button class="sb-auth-btn" id="btn-log" style="display:none;">⬛ Login Log</button>
+        <button class="sb-auth-btn red" id="btn-logout">↩ Sign Out</button>
+      </div>
     </div>
   </nav>
 
@@ -226,7 +300,7 @@
       <div class="hero-title">The Brand,<br>In Full.</div>
       <p class="hero-sub">A structured, comprehensive export — mirroring the Road to 100 Brand Brain format — built entirely from Treazure's locked pillars, creative direction, franchise economics, competitive research, and the founder's own words. Companion to the Master Brand Blueprint (the visual hub), not a replacement for it.</p>
       <div class="hero-meta">
-        <div class="hero-meta-item"><span class="hero-meta-label">Sections</span><span class="hero-meta-value">14</span></div>
+        <div class="hero-meta-item"><span class="hero-meta-label">Sections</span><span class="hero-meta-value">15</span></div>
         <div class="hero-meta-item"><span class="hero-meta-label">Source Docs</span><span class="hero-meta-value">20+</span></div>
         <div class="hero-meta-item"><span class="hero-meta-label">Design System</span><span class="hero-meta-value">v1.0</span></div>
         <div class="hero-meta-item"><span class="hero-meta-label">Structure only</span><span class="hero-meta-value">Green + 1 Cream</span></div>
@@ -762,5 +836,152 @@
   </main>
 </div>
 
+<script>
+// ── AUTH ──────────────────────────────────────────────────────────────────
+const CREDS = {
+  admin: { pass: 'TZ@Admin26', role: 'admin' },
+  ceo:   { pass: 'TZ@CEO26',   role: 'ceo'   },
+  user:  { pass: 'TZ@User26',  role: 'user'  }
+};
+
+// Centralized login log via Google Sheets — optional. Deploy
+// login-log-apps-script.js as a Google Apps Script Web App and paste the
+// URL below. Leave blank to log to this browser's localStorage only.
+const SHEET_ENDPOINT = '';
+const LOG_KEY = 'tz_bb_login_log';
+const SES_KEY = 'tz_bb_session';
+
+async function fetchLocation() {
+  try {
+    const ctrl = new AbortController();
+    const tid = setTimeout(() => ctrl.abort(), 4000);
+    const r = await fetch('https://ipapi.co/json/', { signal: ctrl.signal });
+    clearTimeout(tid);
+    if (!r.ok) throw new Error();
+    const d = await r.json();
+    return { city: d.city || '', region: d.region || '', country: d.country_name || d.country || '', ip: d.ip || '' };
+  } catch (e) { return { city:'', region:'', country:'', ip:'' }; }
+}
+
+async function postLog(entry) {
+  const log = JSON.parse(localStorage.getItem(LOG_KEY) || '[]');
+  log.unshift(entry);
+  if (log.length > 500) log.length = 500;
+  localStorage.setItem(LOG_KEY, JSON.stringify(log));
+  if (SHEET_ENDPOINT) {
+    try { await fetch(SHEET_ENDPOINT, { method:'POST', body: JSON.stringify(entry), headers:{'Content-Type':'text/plain'} }); }
+    catch (e) { /* local backup already saved */ }
+  }
+}
+
+async function fetchLog() {
+  if (SHEET_ENDPOINT) {
+    try {
+      const ctrl = new AbortController();
+      const tid = setTimeout(() => ctrl.abort(), 6000);
+      const r = await fetch(SHEET_ENDPOINT, { signal: ctrl.signal });
+      clearTimeout(tid);
+      if (r.ok) { const data = await r.json(); if (Array.isArray(data)) return data; }
+    } catch (e) { /* fall through */ }
+  }
+  return JSON.parse(localStorage.getItem(LOG_KEY) || '[]');
+}
+
+function roleBadgeHtml(role) {
+  const cls = { admin:'role-admin', ceo:'role-ceo', user:'role-user' }[role] || 'role-user';
+  return `<span class="log-badge ${cls}">${role}</span>`;
+}
+function statusBadgeHtml(failed) {
+  return failed
+    ? `<span class="log-badge" style="background:rgba(176,57,47,.12);color:#b0392f;">failed</span>`
+    : `<span class="log-badge" style="background:rgba(47,122,52,.1);color:#2f7a34;">ok</span>`;
+}
+function fmtLocation(loc) {
+  if (!loc) return '—';
+  const parts = [loc.city, loc.region, loc.country].filter(Boolean);
+  const place = parts.join(', ') || '—';
+  const ipSpan = loc.ip ? ` <span style="color:var(--fg-muted);font-size:10px;">${loc.ip}</span>` : '';
+  return place + ipSpan;
+}
+
+async function renderLog() {
+  const stats = document.getElementById('log-stats');
+  const content = document.getElementById('log-content');
+  content.innerHTML = '<div class="log-empty">Loading…</div>';
+  const entries = await fetchLog();
+  const total = entries.length;
+  const ok = entries.filter(e => !e.failed).length;
+  const fail = entries.filter(e => e.failed).length;
+  stats.innerHTML = `
+    <div class="log-stat"><strong>${total}</strong>Total Events</div>
+    <div class="log-stat"><strong>${ok}</strong>Successful</div>
+    ${fail ? `<div class="log-stat"><strong>${fail}</strong>Failed</div>` : ''}`;
+  if (!entries.length) { content.innerHTML = '<div class="log-empty">No login events recorded yet.</div>'; return; }
+  content.innerHTML = `
+    <table class="log-tbl">
+      <thead><tr><th>#</th><th>Status</th><th>User</th><th>Role</th><th>Location</th><th>Date &amp; Time</th></tr></thead>
+      <tbody>${entries.map((e,i) => `
+        <tr${e.failed ? ' style="opacity:.6"' : ''}>
+          <td>${total-i}</td>
+          <td>${statusBadgeHtml(e.failed)}</td>
+          <td style="font-weight:600;">${e.user}</td>
+          <td>${roleBadgeHtml(e.role)}</td>
+          <td>${fmtLocation(e.loc)}</td>
+          <td>${new Date(e.time).toLocaleString()}</td>
+        </tr>`).join('')}</tbody>
+    </table>`;
+}
+
+function applySession(session) {
+  document.getElementById('login-overlay').style.display = 'none';
+  document.querySelector('.shell').style.display = 'flex';
+  const bar = document.getElementById('sb-session');
+  bar.style.display = 'block';
+  document.getElementById('sb-session-user').textContent = session.user;
+  document.getElementById('sb-session-role').innerHTML =
+    `<span class="sb-session-role ${ {admin:'role-admin',ceo:'role-ceo',user:'role-user'}[session.role] }">${session.role}</span>`;
+  if (session.role === 'admin') document.getElementById('btn-log').style.display = 'block';
+}
+
+function doLogin() {
+  const u = document.getElementById('lx-user').value.trim().toLowerCase();
+  const p = document.getElementById('lx-pass').value;
+  const err = document.getElementById('lx-err');
+  const cred = CREDS[u];
+  if (!cred || cred.pass !== p) {
+    err.classList.add('show');
+    document.getElementById('lx-pass').value = '';
+    document.getElementById('lx-pass').focus();
+    const ts = Date.now();
+    fetchLocation().then(loc => postLog({ user: u || '(blank)', role: '—', time: ts, loc, failed: true }));
+    return;
+  }
+  err.classList.remove('show');
+  const session = { user: u, role: cred.role, loginTime: Date.now() };
+  sessionStorage.setItem(SES_KEY, JSON.stringify(session));
+  applySession(session);
+  const ts = Date.now();
+  fetchLocation().then(loc => postLog({ user: u, role: cred.role, time: ts, loc, failed: false }));
+}
+
+(function boot() {
+  const stored = sessionStorage.getItem(SES_KEY);
+  if (stored) {
+    try { applySession(JSON.parse(stored)); return; } catch (e) { sessionStorage.removeItem(SES_KEY); }
+  }
+  document.getElementById('login-overlay').style.display = 'flex';
+})();
+
+document.getElementById('lx-submit').addEventListener('click', doLogin);
+document.getElementById('lx-pass').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+document.getElementById('lx-user').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('lx-pass').focus(); });
+document.getElementById('btn-logout').addEventListener('click', () => { sessionStorage.removeItem(SES_KEY); location.reload(); });
+document.getElementById('btn-log').addEventListener('click', () => { renderLog(); document.getElementById('log-panel').classList.add('open'); });
+document.getElementById('log-close').addEventListener('click', () => document.getElementById('log-panel').classList.remove('open'));
+document.getElementById('log-clear').addEventListener('click', () => {
+  if (confirm('Clear the local login log backup?')) { localStorage.removeItem(LOG_KEY); renderLog(); }
+});
+window.addEventListener('beforeunload', () => { sessionStorage.removeItem(SES_KEY); });
+</script>
 </body>
 </html>

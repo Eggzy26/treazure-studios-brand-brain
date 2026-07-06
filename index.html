@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Treazure Studios — Brand Brain Export</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Vault — dark surfaces (Design System v1.0) */
+    --vault-canvas: #080806;
+    --vault-s1:     #0d0c0a;
+    --vault-s2:     #111008;
+    --vault-s3:     #181610;
+    --vault-s4:     #201e14;
+
+    /* Gold — primary accent */
+    --gold:         #F7D675;
+    --gold-dk:      #d4a832;
+    --gold-deeper:  #AE8632;
+    --gold-glow:    rgba(247,214,117,0.13);
+    --gold-border:  rgba(247,214,117,0.28);
+
+    /* Foreground */
+    --fg:        #FFFAEE;   /* the one cream used in this document */
+    --fg-dim:    rgba(255,250,238,0.65);
+    --fg-muted:  rgba(255,250,238,0.40);
+    --fg-ghost:  rgba(255,250,238,0.08);
+
+    --border:      rgba(255,255,255,0.08);
+    --border-md:   rgba(255,255,255,0.14);
+    --border-gold: rgba(247,214,117,0.26);
+
+    /* Forest / Teal (corrected 2026-07-02 Brand Brain Audit) — used structurally throughout this doc */
+    --forest:  #152223;
+    --teal:    #223639;
+
+    /* Expanded palette — Pillar 3 reconciliation (see §05) */
+    --onyx:      #0D0D0D;
+    --ivory:     #F5F1EB;
+    --champagne: #C9A84C;
+    --cognac:    #8B4513;
+    --slate:     #6B7280;
+
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-sans:    'DM Sans', system-ui, sans-serif;
+
+    --ls-widest: 0.26em;
+    --ls-wide:   0.14em;
+    --r-sm: 3px; --r-md: 4px;
+  }
+  * { box-sizing: border-box; margin:0; padding:0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--vault-canvas);
+    color: var(--fg);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-thumb { background: var(--vault-s4); border-radius: 3px; }
+
+  .shell { display:flex; min-height:100vh; }
+
+  /* ── SIDEBAR ── */
+  nav.sidebar {
+    width: 272px; flex-shrink:0;
+    background: var(--forest);
+    border-right: 1px solid var(--border-gold);
+    padding: 30px 0 40px;
+    position: sticky; top:0; height:100vh; overflow-y:auto;
+  }
+  .sidebar-brand { padding: 0 26px 22px; margin-bottom: 10px; border-bottom: 1px solid rgba(255,250,238,.14); }
+  .sidebar-brand img { width: 34px; height:auto; margin-bottom: 12px; filter: drop-shadow(0 0 8px rgba(247,214,117,.25)); }
+  .sidebar-eyebrow { font-size:10px; letter-spacing:var(--ls-widest); text-transform:uppercase; color: var(--gold); margin-bottom:6px; }
+  .sidebar-brand h1 { font-family: 'Helvetica Now Display', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style:normal; font-weight:700; font-size:20px; letter-spacing:-0.01em; color: var(--fg); }
+  .sidebar-version { font-size:10.5px; color: var(--fg-muted); margin-top:5px; }
+  .nav-group-label {
+    font-size: 9.5px; font-weight:700; letter-spacing: var(--ls-widest); text-transform:uppercase;
+    color: var(--fg-muted); padding: 16px 26px 8px;
+  }
+  .sidebar-link {
+    display:block; padding:7px 26px; font-size:12.5px; color: var(--fg-dim); text-decoration:none;
+    border-left: 2px solid transparent;
+  }
+  .sidebar-link:hover { color: var(--gold); border-left-color: var(--gold-border); background: rgba(247,214,117,.06); }
+  .sidebar-footer { padding: 22px 26px 0; margin-top:16px; border-top:1px solid rgba(255,250,238,.1); font-size:10.5px; color: var(--fg-muted); }
+
+  main.main { flex:1; max-width: 1000px; margin:0 auto; padding: 0 58px 130px; }
+
+  /* ── HERO ── */
+  .bb-hero { padding: 68px 0 40px; border-bottom:1px solid var(--border); }
+  .hero-eyebrow { font-size:11px; letter-spacing: var(--ls-widest); text-transform:uppercase; color: var(--gold); margin-bottom:16px; }
+  .hero-title { font-family: var(--font-display); font-style:italic; font-weight:600; font-size:46px; line-height:1.05; letter-spacing:-0.01em; color: var(--fg); }
+  .hero-sub { font-size:14px; color: var(--fg-dim); max-width: 640px; margin-top:16px; }
+  .hero-meta { display:flex; gap:20px; margin-top:24px; flex-wrap:wrap; }
+  .hero-meta-item { border:1px solid var(--border); border-radius:4px; padding:6px 12px; }
+  .hero-meta-label { font-size:9.5px; letter-spacing:.12em; text-transform:uppercase; color: var(--fg-muted); display:block; margin-bottom:2px; }
+  .hero-meta-value { font-size:12px; color: var(--gold); }
+
+  section { padding: 54px 0; border-bottom: 1px solid var(--border); }
+  section:last-of-type { border-bottom:none; }
+
+  .section-header { display:flex; align-items:baseline; gap:16px; margin-bottom:28px; padding-bottom:20px; border-bottom:1px solid var(--border); }
+  .section-num { font-size:11px; font-weight:700; letter-spacing: var(--ls-widest); text-transform:uppercase; color: var(--gold); }
+  .section-title { font-family: var(--font-display); font-weight:600; font-style:italic; font-size:32px; color: var(--fg); letter-spacing:-0.01em; }
+  .section-dek { font-size:13.5px; color: var(--fg-dim); max-width:680px; margin: -14px 0 26px; }
+
+  .demo-label {
+    font-size: 10px; font-weight:700; letter-spacing: var(--ls-widest); text-transform:uppercase;
+    color: var(--fg-muted); margin: 26px 0 12px;
+  }
+  h3.sub-head { font-family: var(--font-display); font-style: italic; font-weight:600; font-size:19px; color: var(--gold); margin: 28px 0 10px; }
+  p, li { font-size:14px; color: rgba(255,250,238,.86); }
+  p + p { margin-top:11px; }
+  strong { color: var(--fg); }
+  a.inline { color: var(--gold); }
+
+  .card {
+    background: var(--vault-s2);
+    border:1px solid var(--border);
+    border-left: 3px solid var(--gold-deeper);
+    border-radius: var(--r-md);
+    padding: 18px 20px;
+    margin-bottom: 14px;
+    transition: border-color .2s;
+  }
+  .card:hover { border-color: var(--border-gold); }
+  .card h4 { font-size:14.5px; color: var(--fg); margin-bottom:6px; font-family: var(--font-sans); font-weight:700; }
+  .card p { font-size:13px; color: var(--fg-dim); margin:0; }
+  .card .label { font-size:9.5px; letter-spacing:1.6px; text-transform:uppercase; color: var(--gold); margin-bottom:6px; display:block; }
+
+  .grid2 { display:grid; grid-template-columns: 1fr 1fr; gap:14px; }
+  .grid3 { display:grid; grid-template-columns: 1fr 1fr 1fr; gap:14px; }
+  @media (max-width:900px){ .grid2, .grid3{ grid-template-columns:1fr; } }
+
+  table { width:100%; border-collapse:collapse; margin: 12px 0 22px; font-size:12.5px; }
+  th { text-align:left; color: var(--gold); font-size:10px; letter-spacing:1px; text-transform:uppercase; padding:9px 10px; border-bottom:1px solid var(--border-gold); }
+  td { padding:9px 10px; border-bottom:1px solid var(--border); color: rgba(255,250,238,.82); vertical-align:top; }
+  tr.highlight td { background: rgba(247,214,117,.06); color: var(--fg); }
+
+  .swatch-row { display:flex; gap:10px; flex-wrap:wrap; margin: 12px 0 22px; }
+  .swatch { width:112px; }
+  .swatch .chip { height:56px; border-radius: var(--r-sm); border:1px solid var(--border); margin-bottom:6px; }
+  .swatch .name { font-size:11px; color: var(--fg); }
+  .swatch .hex { font-size:10px; color: var(--fg-muted); font-family: monospace; }
+
+  .pill-row { display:flex; flex-wrap:wrap; gap:8px; margin: 10px 0; }
+  .pill { font-size:11.5px; padding:5px 12px; border-radius:20px; border:1px solid var(--border-gold); color: var(--gold); }
+  .pill.no { border-color: rgba(255,250,238,.14); color: var(--fg-muted); text-decoration: line-through; }
+
+  .feed-item { display:flex; gap:16px; padding: 17px 0; border-bottom:1px solid var(--border); }
+  .feed-item:last-child{ border-bottom:none; }
+  .feed-item .dot { width:8px; height:8px; border-radius:50%; background: var(--gold); margin-top:6px; flex-shrink:0; box-shadow:0 0 8px var(--gold-glow); }
+  .feed-item .when { font-size:10px; color: var(--fg-muted); text-transform:uppercase; letter-spacing:1.2px; margin-bottom:4px; }
+  .feed-item h4 { font-size:15px; color: var(--fg); margin-bottom:5px; font-weight:700; }
+  .feed-item p { font-size:13px; color: var(--fg-dim); }
+
+  .quote { border-left: 3px solid var(--gold); padding: 4px 0 4px 20px; margin: 20px 0; font-family: var(--font-display); font-style:italic; color: var(--gold); font-size:19px; line-height:1.4; }
+  .flag { font-size:11.5px; color: var(--champagne); border:1px dashed rgba(201,168,76,.5); border-radius:4px; padding:9px 13px; margin-top:12px; display:block; }
+  .resolved { font-size:11.5px; color: #8fd17a; border:1px solid rgba(143,209,122,.35); background: rgba(143,209,122,.07); border-radius:4px; padding:9px 13px; margin-top:12px; display:block; }
+
+  footer.bb-footer { padding: 44px 0 90px; color: var(--fg-muted); font-size:11px; }
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <nav class="sidebar">
+    <div class="sidebar-brand">
+      <img src="../02_Design_System/Artboard 4@4x.png" alt="Treazure Studios">
+      <div class="sidebar-eyebrow">Treazure Studios</div>
+      <h1>Brand Brain</h1>
+      <div class="sidebar-version">v2 · Expanded · Jul 7, 2026</div>
+    </div>
+
+    <div class="nav-group-label">Foundation</div>
+    <a class="sidebar-link" href="#live-feed">01 · Live Feed</a>
+    <a class="sidebar-link" href="#positioning">02 · Positioning</a>
+    <a class="sidebar-link" href="#voice">03 · Voice</a>
+    <a class="sidebar-link" href="#story">04 · Story Canon</a>
+    <a class="sidebar-link" href="#visual-identity">05 · Visual Identity</a>
+
+    <div class="nav-group-label">Business</div>
+    <a class="sidebar-link" href="#offer-tiers">06 · Offer Tiers</a>
+    <a class="sidebar-link" href="#marketing">07 · Marketing Strategy</a>
+    <a class="sidebar-link" href="#roadmap-avatar">08 · Roadmap by Avatar</a>
+    <a class="sidebar-link" href="#icp">09 · ICP &amp; Qualification</a>
+
+    <div class="nav-group-label">Market</div>
+    <a class="sidebar-link" href="#competitors">10 · Competitor Analysis</a>
+
+    <div class="nav-group-label">Origin</div>
+    <a class="sidebar-link" href="#visionary">11 · The Visionary Journey</a>
+
+    <div class="nav-group-label">Operations</div>
+    <a class="sidebar-link" href="#discovery-day-sop">12 · Discovery Day SOP</a>
+    <a class="sidebar-link" href="#cadence">13 · Maintenance Cadence</a>
+    <a class="sidebar-link" href="#contacts">14 · Additional Contacts</a>
+
+    <div class="sidebar-footer">
+      Treazure Studios™<br>
+      © 2026 · Confidential<br>
+      Root: 04_Brand_Brain_Master/
+    </div>
+  </nav>
+
+  <main class="main">
+    <header class="bb-hero">
+      <div class="hero-eyebrow">Treazure Studios — Brand Brain Export · v2</div>
+      <div class="hero-title">The Brand,<br>In Full.</div>
+      <p class="hero-sub">A structured, comprehensive export — mirroring the Road to 100 Brand Brain format — built entirely from Treazure's locked pillars, creative direction, franchise economics, competitive research, and the founder's own words. Companion to the Master Brand Blueprint (the visual hub), not a replacement for it.</p>
+      <div class="hero-meta">
+        <div class="hero-meta-item"><span class="hero-meta-label">Sections</span><span class="hero-meta-value">14</span></div>
+        <div class="hero-meta-item"><span class="hero-meta-label">Source Docs</span><span class="hero-meta-value">20+</span></div>
+        <div class="hero-meta-item"><span class="hero-meta-label">Design System</span><span class="hero-meta-value">v1.0</span></div>
+        <div class="hero-meta-item"><span class="hero-meta-label">Structure only</span><span class="hero-meta-value">Green + 1 Cream</span></div>
+      </div>
+    </header>
+
+    <!-- 01 LIVE FEED -->
+    <section id="live-feed">
+      <div class="section-header"><span class="section-num">01</span><h2 class="section-title">Live Feed</h2></div>
+      <p class="section-dek">Decisions cemented into the Brand Brain — pulled straight from the Alignment Audit log and this export's own revision history, latest first.</p>
+
+      <div class="feed-item">
+        <div class="dot"></div>
+        <div>
+          <div class="when">Jul 7, 2026 · Design System</div>
+          <h4>Design System upgraded to v1.0 — real logo assets wired in</h4>
+          <p>The old "Design System · The Vault" build (720KB, simplified placeholder submark art) was superseded by a full v1.0 component library: three brand modes (Vault/Atelier/Signal), an expanded color-token set, a golden-ratio type scale — and the Logo System's "Gold Gradient" and "White Knockout" submark slots now point to the real exported artwork (<code>Artboard 4/2@4x.png</code>) instead of placeholder vector line-art, plus a new Seal/Badge Lockup subsection for the gold and Signal-teal circular seals. Old file archived, not deleted.</p>
+        </div>
+      </div>
+
+      <div class="feed-item">
+        <div class="dot"></div>
+        <div>
+          <div class="when">Jul 7, 2026 · This Document</div>
+          <h4>Brand Brain Export expanded to v2; "All Links" section retired</h4>
+          <p>Per your direction, the standalone "All Links" directory section was removed — that index already lives in HUB.html and doesn't need duplicating here. Every other section was substantially expanded with more of the underlying source material, and the whole document was restyled to match Design System v1.0's actual component language (numbered section headers, demo-block card patterns, the Vault/Forest/Gold token set) rather than an approximated palette.</p>
+        </div>
+      </div>
+
+      <div class="feed-item">
+        <div class="dot"></div>
+        <div>
+          <div class="when">Jul 2, 2026 · Color Correction</div>
+          <h4>Forest green corrected to #152223 / #172224 lineage clarified</h4>
+          <p>Brand forest green updated from a placeholder #223639 to the approved value across 15 files — Design System, both Creative Direction docs, Color Palette reference, Master Blueprint, interactive tools. Design System v1.0 subsequently formalized <code>--forest: #152223</code> as the primary dark surface and repurposed the old #223639 value as a distinct secondary <code>--teal</code> token, rather than discarding it.</p>
+        </div>
+      </div>
+
+      <div class="feed-item">
+        <div class="dot"></div>
+        <div>
+          <div class="when">Jul 2, 2026 · Terminology</div>
+          <h4>"Treazure University" locked as the canonical term</h4>
+          <p>Academy = LPC Curriculum = Treazure University — confirmed and propagated across 12+ documents. Bare "LPC" (the Lifestyle Professional Consultant role) intentionally left untouched; only the certification/curriculum name changed.</p>
+        </div>
+      </div>
+
+      <div class="feed-item">
+        <div class="dot"></div>
+        <div>
+          <div class="when">Jul 2, 2026 · Market Data Reconciliation</div>
+          <h4>Three market-size figures confirmed as three different, real segments</h4>
+          <p>$95.3B (broad U.S. hair, nail &amp; skin care services, IBISWorld 2026) · $5.7B→$10.5B (global salon-suite sub-segment, Business Research Insights) · $90.9B + 14.88% (U.S. hair &amp; nail market + medispa CAGR, previously conflated as one stat — now correctly split and sourced).</p>
+        </div>
+      </div>
+
+      <div class="feed-item">
+        <div class="dot"></div>
+        <div>
+          <div class="when">Jul 2, 2026 · Compliance</div>
+          <h4>Unsourced "$200M+ AUM" claim de-emphasized</h4>
+          <p>Pulled off every headline stat grid and demoted to a small footnote pending sourcing — franchise sales materials are FTC-regulated, and an unverified AUM figure is a real compliance exposure. Still flagged open in the Roadmap.</p>
+        </div>
+      </div>
+
+      <div class="feed-item">
+        <div class="dot"></div>
+        <div>
+          <div class="when">Jun 2026 · Brand Architecture</div>
+          <h4>Two-track model formalized: Corporate vs. Franchise</h4>
+          <p>The Brand Guidelines Audit found the existing (Thrive Marketing) guidelines built only for the Franchise/salon-consumer side, with the Corporate/investment side entirely absent. Fix: two full Creative Direction documents — Corporate (suite tenant recruitment) and Franchise (investor-facing) — now govern each track separately.</p>
+        </div>
+      </div>
+
+      <div class="feed-item">
+        <div class="dot"></div>
+        <div>
+          <div class="when">Open · Flagged, not yet resolved</div>
+          <h4>Pending decisions carried in the Roadmap</h4>
+          <p>(1) $200M+ AUM claim still needs a real source or formal retirement. (2) Design Manual PDF still carries the old #223639 green in embedded swatches — PDFs can't be text-edited. (3) A newly-surfaced $57.4B→$98.6B franchise-market stat in the Competitive Brief hasn't been source-verified the way the other three were.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 POSITIONING -->
+    <section id="positioning">
+      <div class="section-header"><span class="section-num">02</span><h2 class="section-title">Positioning</h2></div>
+      <p class="section-dek">Pillar 1 — locked. Who Treazure Studios is for, what it stands for, and what it refuses to be.</p>
+
+      <div class="quote">"Treazure Studios is the sophisticated, rigor-driven studio for ambitious individuals who are done waiting for permission — who know that real ownership comes from expertise, and who are ready to build businesses that reflect their knowledge and their values."</div>
+
+      <h3 class="sub-head">Who It's For — "Lifestyle Professionals"</h3>
+      <p>Ambitious individuals (any gender, ages 25–55+) who are done waiting for external validation. They know real ownership comes from expertise, not permission, and actively build lives and businesses that reflect their knowledge and values. They measure success by control over their own choices — not a title, not a follower count, not what Instagram says is trending.</p>
+
+      <div class="demo-label">5 Core Stances</div>
+      <div class="grid2">
+        <div class="card"><span class="label">Stance 01</span><h4>Ownership is earned through expertise, not luck.</h4><p>You build authority by doing rigorous work, developing real knowledge, and making decisions grounded in understanding — not by waiting for circumstances to align or the right person to validate you.</p></div>
+        <div class="card"><span class="label">Stance 02</span><h4>Rigor and genuine care are not opposites.</h4><p>High standards and human warmth coexist. You can be exacting about your work and warm in your relationships. Excellence isn't cold; it's respectful.</p></div>
+        <div class="card"><span class="label">Stance 03</span><h4>Sophistication is about respect, not exclusion.</h4><p>Sophisticated work respects the intelligence of the person receiving it. It's clarity wrapped in elegance, not gatekeeping disguised as prestige.</p></div>
+        <div class="card"><span class="label">Stance 04</span><h4>Your knowledge is an asset worth protecting.</h4><p>You've earned your expertise through time, investment, and real work. How you share it, with whom, and under what terms — that's yours to decide. Generosity with boundaries is still generosity.</p></div>
+      </div>
+      <div class="card"><span class="label">Stance 05</span><h4>Success looks like control over your own choices.</h4><p>Not a title, not a number, not external validation. Real success is the ability to make decisions about your time, your work, your clients, and your life based on your values — not based on what someone else says you should want.</p></div>
+
+      <div class="demo-label">What Treazure Refuses to Align With</div>
+      <div class="grid2">
+        <div class="card"><h4>Fake boss mentality branding</h4><p>The "girl boss" aesthetic, the hype cycle, manufactured confidence. All flash, no foundation.</p></div>
+        <div class="card"><h4>Exploitation disguised as empowerment</h4><p>"Work harder, boss babe" messaging that extracts more while promising freedom. "Lean in" culture that asks you to do twice the work for half the recognition.</p></div>
+        <div class="card"><h4>Aesthetic authority without substance</h4><p>Looking the part but having no real knowledge. Styling as expertise. Pretty packaging around hollow methodology.</p></div>
+        <div class="card"><h4>False intimacy as business strategy</h4><p>"We're all friends here" voice that disappears the moment there's a problem or refund request. Oversharing as trust-building. Vulnerability theater.</p></div>
+      </div>
+      <div class="card"><h4>Manufactured scarcity and artificial urgency</h4><p>The countdown timer, the "only three spots left" (that magically becomes three again next week), the deadline created to pressure rather than to organize. Real constraints are honest about themselves.</p></div>
+
+      <h3 class="sub-head">Self-Selection Tests</h3>
+      <p>Not your studio if you're looking for quick fixes, shortcuts, or hacks · you resent being asked to do rigorous work · you believe success is about luck, timing, or knowing the right people · you measure success by external metrics (follower count, comparison to peers, what Instagram says is trending) · you want someone to hold your hand through every decision · you're allergic to standards or see refinement as gatekeeping · you're looking for permission or validation from an authority figure.</p>
+
+      <h3 class="sub-head">Positioning Guardrails</h3>
+      <ul style="padding-left:18px; margin-top:8px;">
+        <li>All messaging emphasizes earned expertise and real results, never hype. Case studies show the work. Testimonials are specific about what changed and why.</li>
+        <li>Pricing reflects value; never discount-based. Discounts signal the baseline price isn't real — they train clients to wait for the sale instead of commit to the work.</li>
+        <li>The sales process is educational, not manipulative. Before someone works with Treazure Studios, they understand the methodology, the commitment, and what results actually look like.</li>
+        <li>Service delivery is impeccable; warmth comes through competence. Clients trust you because you deliver — relationships are built on follow-through, not forced familiarity.</li>
+        <li>Marketing shows real work and real clients; no aspirational imagery. Before-and-afters are honest.</li>
+        <li>Community-building centers on shared values and real peer support — a place for Lifestyle Professionals to solve real problems together, not a social club or a place to perform success.</li>
+      </ul>
+
+      <h3 class="sub-head">Operational Definition — Positioning vs. Voice vs. Visual vs. Story</h3>
+      <p><strong>Positioning (Pillar 1):</strong> who you are for, what you stand for, what you refuse, self-selection tests, operational guardrails. <strong>Voice (Pillar 2):</strong> how you speak. <strong>Visual Identity (Pillar 3):</strong> how you look. <strong>Story (Pillar 4):</strong> why you exist.</p>
+
+      <span class="flag">Correction on record: an early draft of this pillar assumed gender-specific targeting ("ambitious women 25–55"). Fixed per direct user correction — the brand is gender-inclusive across the full "Lifestyle Professionals" audience.</span>
+    </section>
+
+    <!-- 03 VOICE -->
+    <section id="voice">
+      <div class="section-header"><span class="section-num">03</span><h2 class="section-title">Voice</h2></div>
+      <p class="section-dek">Pillar 2 — locked. Five tone attributes, operationalized through sentence rhythm, vocabulary, and eight guardrails.</p>
+
+      <div class="grid3">
+        <div class="card"><h4>Serious</h4><p>Ownership and business excellence are worthy of respect — never trivialized. This seriousness establishes credibility with franchisees considering a major business investment.</p></div>
+        <div class="card"><h4>Direct</h4><p>Communication cuts through complexity without hedging or softening. No filler language — gets to the point, respects the audience's intelligence and time.</p></div>
+        <div class="card"><h4>Specific</h4><p>Concrete details, evidence, and methodology rather than abstract promises. Specificity builds trust and demonstrates genuine expertise.</p></div>
+      </div>
+      <div class="grid2">
+        <div class="card"><h4>Warm</h4><p>Beneath the seriousness and directness lives genuine care for franchisees' success. Acknowledges the emotional weight of building a business, with empathy alongside expertise.</p></div>
+        <div class="card"><h4>Unapologetic</h4><p>Treazure Studios owns its position unequivocally. No hedging about what the brand is, who it serves, or what it demands.</p></div>
+      </div>
+
+      <h3 class="sub-head">Sentence Rhythm</h3>
+      <p>Short (3–6 words) create emphasis and punch for key claims · Medium (7–15 words) carry most explanation and guidance · Long (16+ words) used rarely, only for complex technical points requiring full context.</p>
+
+      <h3 class="sub-head">Vocabulary</h3>
+      <div class="pill-row">
+        <span class="pill">expertise</span><span class="pill">rigor</span><span class="pill">methodology</span><span class="pill">sophistication</span><span class="pill">ownership</span><span class="pill">earned</span><span class="pill">respect</span><span class="pill">care</span><span class="pill">partnership</span><span class="pill">systems</span><span class="pill">built</span><span class="pill">sustainable</span><span class="pill">scalable</span><span class="pill">support</span><span class="pill">steward</span><span class="pill">commitment</span>
+      </div>
+      <div class="pill-row">
+        <span class="pill no">boss</span><span class="pill no">hustle</span><span class="pill no">grind</span><span class="pill no">blessed</span><span class="pill no">journey</span><span class="pill no">tribe</span><span class="pill no">exclusive</span><span class="pill no">secret</span><span class="pill no">love</span><span class="pill no">actually / obviously / just / simply</span>
+      </div>
+
+      <h3 class="sub-head">8 Voice Guardrails</h3>
+      <ol style="padding-left:18px;">
+        <li><strong>Seriousness doesn't mean coldness</strong> — maintain warmth while respecting the weight of business ownership.</li>
+        <li><strong>Directness respects intelligence</strong> — get to the point without being condescending or over-explaining.</li>
+        <li><strong>Specificity builds trust</strong> — avoid abstract promises; ground claims in methodology and evidence.</li>
+        <li><strong>Warmth doesn't minimize challenges</strong> — acknowledge the real difficulty of franchise ownership alongside support.</li>
+        <li><strong>Unapologetic about exclusivity</strong> — the brand is for franchisees serious about excellence, not everyone.</li>
+        <li><strong>Sophistication means earned authority</strong> — show expertise through methodology, not jargon or pretension.</li>
+        <li><strong>Consistency across channels</strong> — whether email, social, or sales materials, voice remains recognizably Treazure Studios.</li>
+        <li><strong>Authenticity over aspiration</strong> — speak from the brand's actual capabilities and values, not an imagined ideal.</li>
+      </ol>
+
+      <h3 class="sub-head">Before / After</h3>
+      <div class="card">
+        <span class="label">Welcome email to new franchisees</span>
+        <p style="text-decoration:line-through; opacity:.55;">"Welcome to the Treazure Studios family! We're excited to start this journey together and empower you to build something amazing."</p>
+        <p style="margin-top:8px; color:var(--fg);">"You're now part of Treazure Studios. We'll give you the systems, support, and expertise to build a sustainable, profitable business. No shortcuts. No mystery. Just rigorous methodology and your commitment."</p>
+      </div>
+      <div class="card">
+        <span class="label">Landing page headline</span>
+        <p style="text-decoration:line-through; opacity:.55;">"Join the exclusive community of salon owners achieving their dreams."</p>
+        <p style="margin-top:8px; color:var(--fg);">"Build a salon business with systems that scale. Treazure Studios franchisees earn sustainable profits through proven methodology."</p>
+      </div>
+      <div class="card">
+        <span class="label">Social post about franchisee success</span>
+        <p style="text-decoration:line-through; opacity:.55;">"Our franchisees are absolutely crushing it! Their journey to success is so inspiring. We just love supporting their dreams!"</p>
+        <p style="margin-top:8px; color:var(--fg);">"Last quarter, our franchisees averaged 28% growth in retail sales. That's not luck. That's the result of our systems training, quarterly audits, and their disciplined execution."</p>
+      </div>
+    </section>
+
+    <!-- 04 STORY CANON -->
+    <section id="story">
+      <div class="section-header"><span class="section-num">04</span><h2 class="section-title">Story Canon</h2></div>
+      <p class="section-dek">Pillar 4 — locked. Origin, the shift, the through-line, the receipts, and the founder's own words.</p>
+
+      <h3 class="sub-head">Origin</h3>
+      <p>Two years ago, a veteran and serial entrepreneur observed a painful pattern: salon professionals — talented, hardworking people with 8–25 years of expertise — remained trapped in business models that extracted their value instead of honoring it. The vision crystallized around his daughter, Treasure, and one question: what if these professionals could build generational wealth without sacrificing autonomy or facing the isolation of solo ownership? Treazure Studios was founded to answer that question — to remove the barriers and set franchise owners up for long-term success.</p>
+
+      <h3 class="sub-head">The Shift</h3>
+      <p>Early positioning centered on financial freedom and business management support. But what emerged through conversations with studio owners was more urgent: salon professionals face systematic gaps in financial literacy, tax strategy, credit access, and estate planning. They average $26K annually with $16K+ in student debt. They carry medical debt, lack wills and trusts, and navigate barriers others never encounter. The realization wasn't that they needed empowerment — it was that they deserved systems designed around expertise that was already there. The shift moved from inspirational messaging to operationalized methodology: specific economics (28% YoY growth, 42% retail margins), measurable retention (94% year-two), proof that rigor works.</p>
+
+      <h3 class="sub-head">The Through-Line</h3>
+      <p>Treazure Studios exists because salon professionals deserve ownership structures that honor their expertise instead of extracting it — and because generational wealth is the earned right of those who have the knowledge and commitment to build it.</p>
+
+      <div class="demo-label">3 Receipts</div>
+      <div class="grid3">
+        <div class="card"><span class="label">Receipt 01</span><h4>Franchisee Economics</h4><p>28% year-over-year growth in franchise adoption; 42% retail margin sustainability; studio owners building repeatable, scalable income without commodifying themselves.</p></div>
+        <div class="card"><span class="label">Receipt 02</span><h4>Retention &amp; Longevity</h4><p>94% year-two retention rate; studio owners with 8–25 years of salon experience choosing Treazure Studios because expertise is treated as foundation, not obstacle.</p></div>
+        <div class="card"><span class="label">Receipt 03</span><h4>Generational Impact</h4><p>Franchisees establishing credit, implementing tax strategy, building estate plans, and creating succession models — moving from income to assets, from survival to legacy.</p></div>
+      </div>
+
+      <h3 class="sub-head">Bio — 110 Words</h3>
+      <p>Treazure Studios was built by a veteran and serial entrepreneur who watched talented salon professionals lose years to business models designed against them. Inspired by his daughter and driven by specific pain points — missing financial education, fragmented systems, racial and credit barriers, no succession planning — he built a different structure. One where expertise counts. One where rigor and care coexist. One designed for generational wealth, not extraction.</p>
+
+      <h3 class="sub-head">About Page</h3>
+      <p>Treazure Studios serves ambitious salon professionals ready to own their businesses without owning the chaos. Founded on the principle that salon expertise deserves ownership structures that honor it instead of exploit it, we provide methodology, systems, and specific support to build studios that scale without sacrificing autonomy or income. Our franchisees average 8–25 years of experience; they choose us because we treat expertise as foundation. We handle the business complexity — credit strategy, tax planning, client systems, retail operations — so you handle what you do best: building a studio that reflects your knowledge and values. Generational wealth isn't luck. It's the earned right of professionals who commit to doing it right.</p>
+
+      <h3 class="sub-head">Instagram Intro</h3>
+      <p>Built by a veteran for salon professionals who refuse to choose between expertise and ownership. 28% YoY growth. 94% year-two retention. Franchisees creating generational wealth, not just income. Treazure Studios: because your expertise deserves ownership structures that honor it.</p>
+
+      <h3 class="sub-head">CEO's Perspective</h3>
+      <div class="quote">"Two years ago, I had a vision — what if lifestyle professionals could achieve financial freedom without the stress of business management?"</div>
+      <p>As a veteran and serial entrepreneur, I wanted to create something more than just a salon space. I envisioned a community that empowers and educates professionals with the tools to build lasting wealth. Inspired by my daughter, Treasure, Treazure Studios was born.</p>
+      <p>Along the way, I met countless talented professionals held back — not by their skills, but by the lack of back-end support needed to run their business and personal finances: lack of knowledge on retirement plans and investment opportunities, unaware of tax strategies used by the wealthy to reduce IRS liabilities, struggling with marketing and client management to increase cash flow, managing multiple booking systems without a streamlined process, feeling that success is limited by race or background, facing credit score challenges when starting a business, and haven't set up wills and trusts while it's still early.</p>
+      <p>Over 100 million Americans carry medical debt, and the average person dies with $60,000 in unpaid liabilities. Yet 68% pass away without a will or trust, leaving their estate in probate — forcing their children to bear the financial burden. For beauty professionals, the stakes are even higher: many enter the industry with $16,000+ in student debt while earning an average of just $26,000 per year. I knew there had to be a better way. And that's why I created Treazure Studios — to remove those barriers and set you up for long-term success. I want you to get more than just a suite — you're stepping into a community that's designed to help you build, grow, and build generational wealth.</p>
+    </section>
+
+    <!-- 05 VISUAL IDENTITY -->
+    <section id="visual-identity">
+      <div class="section-header"><span class="section-num">05</span><h2 class="section-title">Visual Identity</h2></div>
+      <p class="section-dek"><a class="inline" href="../02_Design_System/Treazure_Studios_Design_System.html">↗ Full Design System v1.0</a> — the actively-maintained, brand-wide token set and component library. This section reports what's implemented.</p>
+
+      <span class="resolved">Resolved as of Design System v1.0: the standalone Pillar 3 draft (Onyx / Ivory / Champagne Gold / Forest / Cognac / Slate) and the implemented Vault/Gold palette were previously flagged as two unreconciled systems in this document's v1 pass. Design System v1.0 formally merges them into one "Expanded Brand Palette" — Pillar 3's axis colors now sit alongside the Vault tokens as named, purpose-scoped values rather than a competing system. No content decision was made here; this export simply reports the reconciliation now on record.</span>
+
+      <h3 class="sub-head">Brand Modes</h3>
+      <div class="grid3">
+        <div class="card"><span class="label">Vault</span><h4>Dark, primary mode</h4><p>Near-black canvas (#080806) with gold accent. Franchise pitch materials, hero sections, the deployed app.</p></div>
+        <div class="card"><span class="label">Atelier</span><h4>Light / editorial</h4><p>Cream canvas (#FFFAEE) with forest-green ink. Corporate suite materials, print, in-location signage.</p></div>
+        <div class="card"><span class="label">Signal</span><h4>B2B dark</h4><p>Teal-tinted dark canvas. Franchise-investor decks, data-forward, architecturally clean contexts.</p></div>
+      </div>
+
+      <h3 class="sub-head">Core Color Tokens</h3>
+      <div class="swatch-row">
+        <div class="swatch"><div class="chip" style="background:#152223;"></div><div class="name">Forest</div><div class="hex">#152223</div></div>
+        <div class="swatch"><div class="chip" style="background:#223639;"></div><div class="name">Teal</div><div class="hex">#223639</div></div>
+        <div class="swatch"><div class="chip" style="background:#F7D675;"></div><div class="name">Gold</div><div class="hex">#F7D675</div></div>
+        <div class="swatch"><div class="chip" style="background:#AE8632;"></div><div class="name">Gold Deeper</div><div class="hex">#AE8632</div></div>
+        <div class="swatch"><div class="chip" style="background:#FFFAEE; border-color:rgba(15,17,17,.2);"></div><div class="name">Cream</div><div class="hex">#FFFAEE</div></div>
+        <div class="swatch"><div class="chip" style="background:#0D0D0D;"></div><div class="name">Onyx</div><div class="hex">#0D0D0D</div></div>
+      </div>
+      <div class="swatch-row">
+        <div class="swatch"><div class="chip" style="background:#F5F1EB; border-color:rgba(15,17,17,.2);"></div><div class="name">Ivory</div><div class="hex">#F5F1EB</div></div>
+        <div class="swatch"><div class="chip" style="background:#C9A84C;"></div><div class="name">Champagne</div><div class="hex">#C9A84C</div></div>
+        <div class="swatch"><div class="chip" style="background:#8B4513;"></div><div class="name">Cognac</div><div class="hex">#8B4513</div></div>
+        <div class="swatch"><div class="chip" style="background:#6B7280;"></div><div class="name">Slate</div><div class="hex">#6B7280</div></div>
+      </div>
+      <p>Approved logo combinations: White on Green (#FFFFFF on #172224) · Gold on Black (#AE8632 on #0F1111) · Green on Cream (#172224 on #FFFAEE). Champagne is reserved as a prestige accent appearing once per composition; Cognac and Forest-Deep function as content-type signals (venture/business vs. lifestyle/organic content) per the axis system Pillar 3 originally proposed.</p>
+
+      <h3 class="sub-head">Typography</h3>
+      <table>
+        <tr><th>Role</th><th>Font</th><th>Use</th></tr>
+        <tr><td>Display / Logotype</td><td>Ivy Presto SemiBold (serif)</td><td>Logo, luxury headlines, hero display</td></tr>
+        <tr><td>Accent / Secondary</td><td>IvyOra Text Italic (serif)</td><td>Pull-quotes, tenant testimonials, campaign lines</td></tr>
+        <tr><td>Utility / Body</td><td>Helvetica Now Display / DM Sans (web fallback)</td><td>Body copy, layouts, digital &amp; print</td></tr>
+      </table>
+      <p>Design System v1.0 formalizes a golden-ratio type scale (φ = 1.618, base 14px) running from a 5.3px caption size up to a 251px hero display size — replacing the earlier ad-hoc point sizing used across individual creative direction documents.</p>
+
+      <h3 class="sub-head">Track Split — Corporate vs. Franchise</h3>
+      <table>
+        <tr><th>Element</th><th>Corporate</th><th>Franchise</th></tr>
+        <tr><td>Primary background</td><td>Deep Forest Green (digital) / Cream (print)</td><td>Near-Black (digital) / Cream (print)</td></tr>
+        <tr><td>Warmth accents</td><td>Light Gold, Amber — used freely</td><td>Not used — reads too casual for investment-level formality</td></tr>
+        <tr><td>Texture</td><td>Gold foil OK on physical welcome kits</td><td>Flat digital; single paper-stock moment in print only</td></tr>
+        <tr><td>Mood</td><td>Premium AND welcoming</td><td>Authoritative, data-forward, architecturally clean</td></tr>
+      </table>
+    </section>
+
+    <!-- 06 OFFER TIERS -->
+    <section id="offer-tiers">
+      <div class="section-header"><span class="section-num">06</span><h2 class="section-title">Offer Tiers</h2></div>
+      <p class="section-dek">Two tracks, one brand. Corporate = suite tenants. Franchise = investors/operators. Treazure University sits underneath both.</p>
+
+      <h3 class="sub-head">Track A — Franchise Investment</h3>
+      <div class="card">
+        <span class="label">Franchise Ownership</span>
+        <h4>$49,900 franchise fee · $830K–$1.6M total investment</h4>
+        <p>6% royalty on gross sales. No beauty background required — franchisees are buying a business, not a job. 8–9 months to open. Protected, exclusive territory. Nationwide expansion across 14 registration states and 9 filing states (23 total).</p>
+      </div>
+      <div class="card">
+        <span class="label">Legal framework</span>
+        <h4>FDD-governed offering</h4>
+        <p>Full disclosure and franchise sales process governed by the Franchise Disclosure Document (FDD, filed V12042025) and the Franchisor Launch Plan. Franchise sales materials are FTC-regulated — financial performance representations require sourcing, which is why the unsourced "$200M+ AUM" figure stays out of headline stat grids (see §01, Live Feed).</p>
+      </div>
+
+      <h3 class="sub-head">Track B — Corporate Suite Tenancy</h3>
+      <div class="card">
+        <span class="label">Lifestyle Professional Suite Rental</span>
+        <h4>Independent suite lease for salon/wellness professionals</h4>
+        <p>Hairstylists, barbers, estheticians, massage therapists, lash techs, tattoo artists, medspa practitioners. Corporate franchisee owns the building and leases studios — tenants are recruited, not clients served directly. Flagship: Farmers Branch, targeted for 100% occupancy with an active waitlist in Q1 2026.</p>
+      </div>
+
+      <h3 class="sub-head">Underneath Both — Treazure University</h3>
+      <p>Delivered via a dedicated Lifestyle Professional Consultant (LPC) — the liaison between the studio owner and the strategic-partner network (retirement, tax, credit, legal). In the founder's words, this is "the checker" who holds each member accountable through all three phases. Breaks into two parallel paths: a path for successful business, and a path for successful personal life — "because you deserve it, your kids deserve it, your family deserves it."</p>
+      <div class="grid3">
+        <div class="card"><span class="label">Phase I · 0–30 days</span><h4>Beyond the Chair — Onboarding</h4><p>Orientation, ribbon-cutting, payment setup, operating agreement, EIN, disability insurance in place.</p></div>
+        <div class="card"><span class="label">Phase II · 31–90 days</span><h4>Financial Foundation</h4><p>401(k)/retirement review (including rollovers from prior employers), tax strategy, credit repair, bookkeeping systems.</p></div>
+        <div class="card"><span class="label">Phase III · 91–180 days</span><h4>Legacy &amp; Investment</h4><p>Estate planning, wills/trusts, alternative investment access, succession thinking, kids' college planning, first-time home buying.</p></div>
+      </div>
+    </section>
+
+    <!-- 07 MARKETING STRATEGY -->
+    <section id="marketing">
+      <div class="section-header"><span class="section-num">07</span><h2 class="section-title">Marketing Strategy</h2></div>
+      <p class="section-dek">Q1 2026 execution plan, content pillars, and the 12-month franchise marketing budget.</p>
+
+      <h3 class="sub-head">Q1 2026 — Primary Goals</h3>
+      <ol style="padding-left:18px;">
+        <li><strong>Full Occupancy — Farmers Branch.</strong> 100% occupancy with an active waitlist; flagship studio.</li>
+        <li><strong>Expand reach for new locations</strong> ahead of nationwide expansion.</li>
+        <li><strong>Promote to franchise investors</strong> — build a qualified, educated pipeline.</li>
+      </ol>
+
+      <h3 class="sub-head">Q1 Execution Calendar</h3>
+      <table>
+        <tr><th>Month</th><th>Theme</th><th>Key Moves</th></tr>
+        <tr><td>January</td><td>Authority &amp; Education</td><td>"Build Beyond the Chair" launch (wk1) · Future of Salon Studios 2026 trend report + paid traffic (wk2) · Studio vs. Traditional Salon education (wk3) · Treazure University soft intro (wk4)</td></tr>
+        <tr><td>February</td><td>Nurture &amp; Qualification</td><td>Franchise education content + Franchise Fact Friday (wk5) · studio lifestyle storytelling + Pinterest expansion (wk6) · Ownership Path education (wk7) · Discovery Day promotion + social proof begins (wk8)</td></tr>
+        <tr><td>March</td><td>Conversion &amp; Events</td><td>Discovery Day reminder + founder POV (wk9) · Discovery Day execution + live Q&amp;A (wk10) · objections/case studies (wk11) · Q1 close, retargeting &amp; recap (wk12)</td></tr>
+      </table>
+
+      <h3 class="sub-head">Content Pillars</h3>
+      <div class="grid2">
+        <div class="card"><h4>Studio Life &amp; Operator Reality</h4><p>Behind-the-scenes, real workflows, income clarity.</p></div>
+        <div class="card"><h4>Professional Growth</h4><p>Brand building, pricing, boundaries, lifestyle freedom.</p></div>
+        <div class="card"><h4>Ownership &amp; Expansion</h4><p>Franchise education, scalability, systems.</p></div>
+        <div class="card"><h4>Trends &amp; Culture</h4><p>Beauty, wellness, creator economy, luxury micro-business.</p></div>
+      </div>
+
+      <h3 class="sub-head">Templated Content Formats</h3>
+      <div class="grid2">
+        <div class="card"><span class="label">Short-form video</span><h4>"Studio POV" Series</h4><p>POV: unlocking studio, client flow, closing for the day. Template: hook (3 sec) → reality moment → insight caption.</p></div>
+        <div class="card"><span class="label">Carousel</span><h4>"Booked vs. Burned Out"</h4><p>Slide 1: myth · Slides 2–3: reality · Slide 4: Treazure solution.</p></div>
+        <div class="card"><span class="label">Anonymous, brand-safe</span><h4>Income Snapshot Stories</h4><p>Monthly revenue range, schedule flexibility, services offered — template-based.</p></div>
+        <div class="card"><span class="label">Weekly recurring</span><h4>Trend Decode Reels</h4><p>Break down one salon or wellness trend per week — "what it means for studio owners."</p></div>
+      </div>
+
+      <h3 class="sub-head">12-Month Franchise Marketing Budget — $156,000</h3>
+      <table>
+        <tr><th>Channel</th><th>Tier</th><th>Annual</th><th>%</th><th>Goal</th></tr>
+        <tr class="highlight"><td>LinkedIn</td><td>Tier 1</td><td>$43,680</td><td>28%</td><td>Decision-maker acquisition</td></tr>
+        <tr><td>Facebook / Instagram</td><td>Tier 1</td><td>$37,440</td><td>24%</td><td>Top-of-funnel volume</td></tr>
+        <tr><td>Google Search</td><td>Tier 1</td><td>$31,200</td><td>20%</td><td>High-intent capture</td></tr>
+        <tr><td>YouTube</td><td>Tier 2</td><td>$18,720</td><td>12%</td><td>Brand trust + storytelling</td></tr>
+        <tr><td>Display / Native</td><td>Tier 2</td><td>$12,480</td><td>8%</td><td>Awareness + retargeting</td></tr>
+        <tr><td>Email sequences</td><td>Nurture</td><td>$12,480</td><td>8%</td><td>FDD delivery + close nurture</td></tr>
+      </table>
+      <p>Blended CAC target: $13,000/mo avg ($12K–$15K range). Phased deployment: Phase 1 seeding, Phase 2 (months 4–9) $84,000 lead-gen ramp + Discovery Day support, Phase 3 harvest. Modeled ROI: 3.8× on ad spend against a 12-unit signing goal ($598,800 Year 1 franchise-fee revenue; ~$432K/yr Year 2+ royalty stream at scale, based on a 6% royalty on an estimated $600K gross sales per unit across 12 locations). Funnel model: 31,200 paid impressions → 1,560 clicks (~5% CTR) → 312 applications (~20% conversion) → 62 Discovery Days (~20% qualification) → 12 signed franchise agreements.</p>
+      <p>Ad targeting runs three operator-first audience buckets: high-income W-2 earners ($150K+), entrepreneurs ($250K–$2M/yr), and existing real estate investors — cross-referenced against real estate investing, veterans-in-business, and beauty-industry HHI $75K+ interest signals. No dollar amounts appear in ad copy; target CPL sits around $10.</p>
+    </section>
+
+    <!-- 08 ROADMAP BY AVATAR -->
+    <section id="roadmap-avatar">
+      <div class="section-header"><span class="section-num">08</span><h2 class="section-title">Roadmap by Avatar</h2></div>
+      <p class="section-dek">Five Corporate-track avatars from the original brand strategy intake — the actual people Treazure Studios' suite-tenant marketing speaks to — plus the Franchise-track investor profile.</p>
+
+      <table>
+        <tr><th>Avatar</th><th>Age / Role</th><th>Income</th><th>Core Pain Point</th></tr>
+        <tr><td><strong>Sarah</strong></td><td>34 · Hairstylist moving into ownership</td><td>$50K–$80K</td><td>Limited growth under others; needs a guided path to ownership</td></tr>
+        <tr><td><strong>Kat William</strong></td><td>41 · Esthetician (Image Studio)</td><td>$70K–$90K</td><td>No retirement plan, doesn't own her home, no living will/trust, doesn't know write-offs</td></tr>
+        <tr><td><strong>Kim Porter</strong></td><td>23 · Massage therapist</td><td>$30K–$40K</td><td>No lead-gen system, needs bookkeeping (clients paying Venmo/Cash App), needs credit repair</td></tr>
+        <tr><td><strong>Lauren Ramirez</strong></td><td>33 · Med spa specialist (injectables, laser)</td><td>$100K–$120K</td><td>Client growth capped at word-of-mouth; no system for retention/booking automation; high taxes, no deduction strategy</td></tr>
+        <tr><td><strong>Shanty Demicka Jones</strong></td><td>29 · Hair weave/wig specialist</td><td>$40K–$50K</td><td>Unpredictable bookings from social alone; no bookkeeping system; wants better credit for a future branded product line</td></tr>
+      </table>
+
+      <h3 class="sub-head">Franchise-Track Avatar</h3>
+      <p>Business-minded operators, veterans, and solopreneurs with $200K+ liquidity, and wealthy families seeking a real-estate-backed income business. They do not need — and are not sold on — a beauty background. They are buying a business, not a job. This is a serious decision with serious capital, evaluated against a minimum $830,000 investment: due diligence, not browsing.</p>
+    </section>
+
+    <!-- 09 ICP & QUALIFICATION -->
+    <section id="icp">
+      <div class="section-header"><span class="section-num">09</span><h2 class="section-title">ICP &amp; Qualification Framework</h2></div>
+      <p class="section-dek">Who qualifies, on both tracks — and who gets routed elsewhere.</p>
+
+      <div class="grid2">
+        <div class="card">
+          <span class="label">Franchise Track</span>
+          <h4>Investor / Operator Qualification</h4>
+          <p>$200K+ liquid capital · $830K–$1.6M total investment capacity · veteran, business-minded operator, or wealthy-family profile · no beauty-industry background required · protected-territory buyer, not a single-unit hobbyist.</p>
+        </div>
+        <div class="card">
+          <span class="label">Corporate Track</span>
+          <h4>Suite Tenant Qualification</h4>
+          <p>8–25 years of salon/wellness experience · established client base seeking autonomy · currently booth-renting, commission-split, or home-based · ready to own a business, not just a chair.</p>
+        </div>
+      </div>
+
+      <h3 class="sub-head">Ad Audience Targeting — 3 Buckets (Operator-First)</h3>
+      <p>① High-Income W-2 Earners ($150K+) · ② Entrepreneurs ($250K–$2M/yr) · ③ Existing Real Estate Investors. Layered against interest signals for real estate investing, veterans in business, and the beauty industry (HHI $75K+). Messaging stays operator-tone throughout — no dollar amounts in ad copy, no "zero-to-hero" framing on the front end.</p>
+
+      <h3 class="sub-head">Disqualifiers</h3>
+      <p>People attracted by hype, quick-fix framing, or manufactured urgency · anyone without a real book of clients (Corporate) or without verified liquidity (Franchise) · anyone looking for a passive, hands-off "real estate only" play with no interest in the Treazure University methodology · cold-calling scraped lead lists (discontinued — 0 conversions, trust and legal pushback in earlier campaigns; pivoted to cold email + Meta custom audience upload).</p>
+    </section>
+
+    <!-- 10 COMPETITOR ANALYSIS -->
+    <section id="competitors">
+      <div class="section-header"><span class="section-num">10</span><h2 class="section-title">Competitor Analysis</h2></div>
+      <p class="section-dek">From the Competitive Brief &amp; Brand Thesis (June 2026). The salon-suite category is crowded in the middle on real estate — and wide open at the top on financial ecosystem. 3,300+ salon suite locations nationwide, 25+ brands, 5.8% CAGR, projected $10.5B global market by 2035.</p>
+
+      <table>
+        <tr><th>Brand</th><th>Locations</th><th>Franchise Fee</th><th>Total Investment</th><th>Business Support</th><th>Financial Literacy</th></tr>
+        <tr class="highlight"><td>★ Treazure Studios</td><td>1 (growing)</td><td>$49,900</td><td>$830K–$1.59M</td><td>✅ Full 3-Phase Treazure University + LPC</td><td>✅ Credit, retirement, estate</td></tr>
+        <tr><td>Sola Salons</td><td>751</td><td>$60,000</td><td>$924K–$1.96M</td><td>❌ Minimal (LMS only)</td><td>❌ None</td></tr>
+        <tr><td>Salons by JC</td><td>170</td><td>$55K–$60K</td><td>$1.3M–$2.0M</td><td>⚠️ Concierge only</td><td>❌ None</td></tr>
+        <tr><td>Phenix Salon Suites</td><td>421</td><td>N/A</td><td>Mid-tier</td><td>❌ Reception only</td><td>❌ None</td></tr>
+        <tr><td>My Salon Suite</td><td>200+</td><td>N/A</td><td>$675K–$1.68M</td><td>⚠️ Limited training</td><td>❌ None</td></tr>
+        <tr><td>IMAGE Studios</td><td>112 (200+ dev.)</td><td>N/A</td><td>Mid-tier</td><td>⚠️ Emerging ("business education")</td><td>❌ None formalized</td></tr>
+        <tr><td>Salon Lofts</td><td>100+</td><td>N/A</td><td>$275–$750/wk rent</td><td>⚠️ Tech tools only</td><td>❌ None</td></tr>
+        <tr><td>Encore Salon Suites</td><td>Small</td><td>N/A</td><td>$171K–$376K</td><td>❌ None</td><td>❌ None</td></tr>
+      </table>
+
+      <div class="grid2">
+        <div class="card">
+          <span class="label">Biggest Opportunity</span>
+          <h4>No one owns "beauty professional financial empowerment"</h4>
+          <p>Treazure University + LPC is categorically different from anything on the market — unclaimed territory that can't be copied by adding amenities to a hallway of suites.</p>
+        </div>
+        <div class="card">
+          <span class="label">Biggest Threat</span>
+          <h4>Sola Salons — 751 locations, expanding into Texas</h4>
+          <p>$1B+ valuation via Radiance Holdings, #1 Entrepreneur Franchise 500 (2025 &amp; 2026). Its own materials describe itself as a "real estate rental model" — company-owned locations at 95–100% occupancy show only $242,793 in earnings, leaving franchisees focused on occupancy math rather than a real support system. That gap is Treazure's opening.</p>
+        </div>
+      </div>
+      <p class="flag">Watch closely: IMAGE Studios is the one competitor now mentioning "business education" in its messaging (CEO quoted July 2025), backed by MPK Equity Partners with 200+ locations in development. Still fundamentally a real-estate play today — but Treazure must formalize and publicize Treazure University before IMAGE Studios claims "education first."</p>
+    </section>
+
+    <!-- 11 THE VISIONARY JOURNEY -->
+    <section id="visionary">
+      <div class="section-header"><span class="section-num">11</span><h2 class="section-title">The Visionary Journey</h2></div>
+      <p class="section-dek">From the founder interview, "You Don't Have to Die Behind the Chair: The Treazure Studios Blueprint."</p>
+
+      <div class="quote">"The only question I kept asking: 'How does your retirement look?' And they'd say, 'What you mean retirement? We die behind the chair.'"</div>
+
+      <p><strong>Dearonne Bethea</strong> — family man, four daughters and a son, born and raised in Enfield, North Carolina, one of the poorest towns in the state. "It was either going to jail or go to the military. I chose the military." Joined after a second chance and a 12-month probation; got a mentor at 20 who changed everything; promoted eleven times over a full career, investing from a young age long before most people even consider it.</p>
+
+      <p>After losing a friend during deployment to Iraq — "he's not coming home to his kids, to their family" — he built Bands of Brothers Investment Group, and lost half a million dollars on his very first franchise purchase in DFW. Rather than stop, he documented every mistake, built systems, processes, and KPIs, and doubled down on a second location while losing $10,000 a month. "All those lessons learned, we implemented into our new business, and we did really well."</p>
+
+      <p>Years later, back in DFW, he drove the Tennessee–Dallas–Austin–Houston corridor talking to salon owners and their stylists — hearing the same phrase over and over: <em>"We die behind the chair."</em> A franchise deal he'd been promised (including approved territories in Hawaii and Austin) collapsed at the signing stage — the CEO decided "he just got too much going on." A friend, Kevin Davis — the top independent operator in the space — told him: <em>"We don't care about S&amp;P 500. S and P and me. Go do it yourself."</em> He did.</p>
+
+      <p><strong>The name:</strong> Treazur is his first daughter's name — spelled with a "z" instead of an "s." Treazure Studios exists to build a "beyond the chair" path: connecting lifestyle professionals to EINs, operating agreements, retirement accounts, tax strategy, life/disability insurance, and estate planning — delivered through Lifestyle Professional Consultants across a 30/90/180-day Treazure University arc. "We don't want to leave our kids here with debt."</p>
+
+      <p><strong>Co-founders (Franchise track):</strong> Dearonne Bethea, Kenneth Athans, and Jim Bizily — three U.S. military veterans. The founding story is a stated competitive advantage in Franchise materials: discipline, operational rigor, mission-driven leadership, visible as substantive proof rather than marketing gimmick.</p>
+    </section>
+
+    <!-- 12 DISCOVERY DAY SOP -->
+    <section id="discovery-day-sop">
+      <div class="section-header"><span class="section-num">12</span><h2 class="section-title">Discovery Day &amp; Treazure University SOP</h2></div>
+      <p class="section-dek">Treazure's real equivalent of a franchise "webinar-to-close" funnel — pulled from the Q1 2026 execution plan and the Treazure University curriculum. There is no webinar-cadence document on file; this section reports the actual Discovery Day / onboarding process instead of inventing one.</p>
+
+      <h3 class="sub-head">Discovery Day — Franchise Funnel Stage</h3>
+      <p>Week 8 (Feb 17–23): Discovery Day promotion begins, alongside social-proof rollout. Weeks 9–10 (Feb 24–Mar 9): reminder content, founder POV content, Discovery Day execution with a live Q&amp;A. Weeks 11–12 (Mar 10–31): follow-up/objection-handling content, case studies, final Q1 close and retargeting.</p>
+
+      <h3 class="sub-head">Onboarding — First 3 Days (Corporate + Franchise)</h3>
+      <p>Orientation covering ribbon-cutting, payment setup, and the ceremonial "welcome" moments — done first, deliberately, before the harder systems work begins. In the founder's words: "we want them to do all the things they like doing... we want to make sure all that stuff is done, and we want to support them."</p>
+
+      <h3 class="sub-head">Treazure University — 30 / 90 / 180-Day Arc</h3>
+      <p>Phase I (0–30 days): operating agreement, EIN, insurance in place. Phase II (31–90 days): retirement account review, tax strategy, credit repair. Phase III (91–180 days): estate planning, wills/trusts, alternative investment access. A Lifestyle Professional Consultant (LPC) holds each member accountable through all three phases — described by the founder as "the checker."</p>
+    </section>
+
+    <!-- 13 MAINTENANCE CADENCE -->
+    <section id="cadence">
+      <div class="section-header"><span class="section-num">13</span><h2 class="section-title">Brand Brain Maintenance Cadence</h2></div>
+      <p class="section-dek">Treazure doesn't run a documented weekly team-sync cadence yet — what exists is the Brand Brain's own upkeep rhythm, from the SOP. Reporting that honestly rather than inventing meeting minutes that don't exist.</p>
+
+      <div class="grid3">
+        <div class="card"><span class="label">Weekly</span><h4>Sweep &amp; file</h4><p>Sweep Downloads and any active session temp folders for new Treazure files; file or archive per the folder structure.</p></div>
+        <div class="card"><span class="label">Monthly</span><h4>Live-deployment check</h4><p>Confirm the live URL still matches the local 08_Live_Deployment copy — catches manual redeploys made outside this workflow.</p></div>
+        <div class="card"><span class="label">Per major addition</span><h4>Index + audit update</h4><p>Update 00_INDEX.md with a one-paragraph note; add a dated entry to the Alignment Audit if the change touches more than one file.</p></div>
+      </div>
+      <p>This document's own revision history is itself an instance of the cadence working: v1 shipped, feedback identified two gaps (a superseded design system feeding stale submark art, and thin section content), both were logged and fixed same-pass, and the fix is recorded here in §01 rather than silently overwritten.</p>
+      <p class="flag">Open ask, not yet built: a real weekly operating-team sync (marketing / franchise-sales / studio-ops) does not appear to be documented anywhere in the Brand Brain. If one exists outside these files, it should be added here — this section currently only reflects documentation maintenance, not business operations.</p>
+    </section>
+
+    <!-- 14 ADDITIONAL CONTACTS -->
+    <section id="contacts">
+      <div class="section-header"><span class="section-num">14</span><h2 class="section-title">Additional Contacts</h2></div>
+      <p class="section-dek">Only names confirmed on file are listed. No roster is invented.</p>
+
+      <div class="grid3">
+        <div class="card"><span class="label">Founder / CEO</span><h4>Dearonne Bethea</h4><p>Franchise track co-founder. Veteran, serial entrepreneur, founder of Bands of Brothers Investment Group.</p></div>
+        <div class="card"><span class="label">Co-founder</span><h4>Kenneth Athans</h4><p>Franchise track co-founder — U.S. military veteran.</p></div>
+        <div class="card"><span class="label">Co-founder</span><h4>Jim Bizily</h4><p>Franchise track co-founder — U.S. military veteran.</p></div>
+      </div>
+      <p class="flag">Not documented anywhere in the Brand Brain: a broader operating team roster (marketing, sales, studio ops leads). Flag if you want this section built out with real names.</p>
+    </section>
+
+    <footer class="bb-footer">
+      Treazure Studios — Brand Brain Export v2 · Structural mirror of the Road to 100 Brand Brain export format, restyled to Design System v1.0's component language · Colors used structurally in this document (Forest #152223 as the dominant surface, single Cream #FFFAEE) — the Visual Identity pillar's own content is reported, not altered, in §05. "All Links" retired from this file; the full document directory lives in HUB.html.
+    </footer>
+  </main>
+</div>
+
+</body>
+</html>

@@ -85,7 +85,13 @@
     position: sticky; top:0; height:100vh; overflow-y:auto;
   }
   .sidebar-brand { padding: 0 26px 22px; margin-bottom: 10px; border-bottom: 1px solid rgba(255,250,238,.14); }
-  .sidebar-brand img { width: 34px; height:auto; margin-bottom: 12px; filter: drop-shadow(0 0 8px rgba(247,214,117,.25)); }
+  .sidebar-logo-mark {
+    width: 34px; height: 34px; border-radius: 8px; margin-bottom: 12px;
+    background: rgba(247,214,117,.08); border: 1px solid var(--gold-border);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display); font-style: italic; font-weight: 700;
+    font-size: 15px; letter-spacing: -0.02em; color: var(--gold);
+  }
   .sidebar-eyebrow { font-size:10px; letter-spacing:var(--ls-widest); text-transform:uppercase; color: var(--gold); margin-bottom:6px; }
   .sidebar-brand h1 { font-family: 'Helvetica Now Display', 'Helvetica Neue', Helvetica, Arial, sans-serif; font-style:normal; font-weight:700; font-size:20px; letter-spacing:-0.01em; color: var(--fg); }
   .sidebar-version { font-size:10.5px; color: var(--fg-muted); margin-top:5px; }
@@ -250,7 +256,7 @@
 <div class="shell" style="display:none;">
   <nav class="sidebar">
     <div class="sidebar-brand">
-      <img src="../02_Design_System/Artboard 4@4x.png" alt="Treazure Studios">
+      <div class="sidebar-logo-mark">TS</div>
       <div class="sidebar-eyebrow">Treazure Studios</div>
       <h1>Brand Brain</h1>
       <div class="sidebar-version">v2 · Expanded · Jul 7, 2026</div>
